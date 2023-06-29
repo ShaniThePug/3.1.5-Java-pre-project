@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" style="position: static;">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Admin panel</title>
+    <script defer src="/js/jquery-3.6.3.js"></script>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/Navbar-Centered-Brand-Dark-icons.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+            crossorigin="anonymous"></script>
+</head>
+
+<body class="text-body" style="background: var(--light);">
+<!--Верхняя панель!!!!!!!!!!!!!!!!!!-->
+<div class="container-fluid" id="top-container">
+    <div class="row d-xl-flex flex-column" id="top-row">
+        <div class="col-xl-12" id="top-column-1">
+            <h6 class="d-flex justify-content-xl-start" id="top-par"
+                th:text="${thisUser.getEmail()} + ' with roles: ' + ${#strings.arrayJoin(thisUser.roles, ', ')}">ADMIN,
+                USER>
+            </h6>
+        </div>
+        <div class="col d-lg-flex d-xl-flex align-self-end justify-content-lg-center" id="top-column-2">
+            <form class="d-flex justify-content-lg-center align-items-lg-center text-decoration-none" id="top-link"
+                  th:method="POST" th:action="@{/logout}">
+                <input type="submit" value="Logout" id="logoutButton"/>
+            </form>
+        </div>
+    </div>
+</div>
+<!--Боковая панель!!!!!!!!!!!!!!!!!!-->
+<div class="container d-flex d-xl-flex flex-column justify-content-xl-start" id="panel">
+    <div class="row d-flex d-xl-flex flex-column" id="panel-row">
+        <div class="col d-flex justify-content-xl-start align-items-xl-center" id="panel-column">
+            <a id="panel-link" href="#">Admin</a>
+        </div>
+        <div class="col d-flex justify-content-xl-start align-items-xl-center" id="panel-column-2">
+            <a id="panel-link-2" href="/user">User</a>
+        </div>
+    </div>
+</div>
+<p id="par-mid">Admin panel</p>
+<div id="tabs">
+    <!--    Первый табс-->
+    <ul class="nav nav-tabs" role="tablist" id="tab-items">
+        <li class="nav-item" role="presentation" id="tab-1">
+            <a class="nav-link active" role="tab" data-toggle="tab"
+               id="tab-link-1" href="#tabp-1" aria-selected="true" aria-controls="tabp-1">Users table</a>
+        </li>
+        <!--     Второй табс-->
+        <li class="nav-item" role="presentation" id="tab-2">
+            <a class="nav-link" role="tab" data-toggle="tab"
+               id="tab-link-2" href="#tabp-2" aria-selected="false" aria-controls="tabp-2">New user</a>
+        </li>
+    </ul>
+    <!--    Таблица!!!!!!!!!!!!!!!!!!-->
+    <div class="tab-content" id="tab-content">
+        <div class="tab-pane active border rounded" role="tabpanel" id="tabp-1" aria-labelledby="tab-link-1">
+            <p class="border rounded-0" id="tab-pane-par">All users</p>
+            <div class="table-responsive" id="table">
+                <table class="table table-striped">
+                    <thead id="table-header">
+                    <tr id="table-row">
+                        <th>ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Age</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                    </thead>
+                    <tbody id="table_body"></tbody>
+                </table>
+            </div>
+        </div>
+        <!--        Добавление пользователя!!!!!!!!!!!!!!!!!!-->
+        <div class="tab-pane" role="tabpanel" id="tabp-2" aria-labelledby="tab-link-2">
+            <div class="container border rounded d-flex flex-column justify-content-lg-center justify-content-xl-center"
+                 id="tab-pane2-container">
+                <div class="row d-flex d-xl-flex justify-content-xl-start" id="t-p-r">
+                    <div class="col d-flex flex-column" id="t-p-c">
+                        <p class="border rounded-0" id="t-par">Add new user</p>
+                    </div>
+                </div>
+                <div class="row d-flex flex-column align-items-lg-center justify-content-xl-center align-items-xl-center"
+                     id="t-p-r2">
+                    <form id="formNewUser" role="form">
+                        <div class="col d-flex flex-column align-items-lg-center align-items-xl-center" id="tp2-col1">
+                            <label for="tp2-ti" class="justify-content-lg-center justify-content-xl-center"
+                                   id="tp2-fl">First name</label>
+                            <input name="userName" class="justify-content-lg-center align-items-lg-center" th:type="text"
+                                   id="tp2-ti">
+                        </div>
+                        <div class="col d-flex flex-column align-items-lg-center align-items-xl-center" id="tp2-col2">
+                            <label for="tp2-ti2"
+                                   class="justify-content-lg-center align-items-lg-center justify-content-xl-center"
+                                   id="tp2-fl2">Last name</label>
+                            <input name="lastName" th:type="text" id="tp2-ti2">
+                        </div>
+                        <div class="col d-flex flex-column align-items-lg-center align-items-xl-center" id="tp2-col3">
+                            <label for="tp2-ni"
+                                   class="justify-content-lg-center align-items-lg-center justify-content-xl-center"
+                                   id="tp2-fl3">Age</label>
+                            <input name="age" th:type="number" id="tp2-ni">
+                        </div>
+                        <div class="col d-flex flex-column align-items-lg-center align-items-xl-center" id="tp2-col4">
+                            <label for="tp2-em"
+                                   class="justify-content-lg-center align-items-lg-center justify-content-xl-center"
+                                   id="tp2-fl4">Email</label>
+                            <input name="email" th:type="email" id="tp2-em">
+                        </div>
+                        <div class="col d-flex flex-column align-items-lg-center justify-content-xl-center align-items-xl-center"
+                             id="tp2-col5">
+                            <label for="tp2-pas"
+                                   class="justify-content-lg-center align-items-lg-center justify-content-xl-center"
+                                   id="tp2-fl5">Password</label>
+                            <input name="password" th:type="password" id="tp2-pas">
+                        </div>
+                        <div class="col d-flex flex-column align-items-lg-center align-items-xl-center" id="tp2-col6">
+                            <label for="roleNew"
+                                   class="justify-content-lg-center align-items-lg-center justify-content-xl-center"
+                                   id="tp2-fl6">Role</label>
+                            <select name="roles" class="justify-content-lg-center align-items-lg-center "
+                                    id="roleNew" multiple="">
+                                <option id="roleNewUser" value="2">USER</option>
+                                <option id="roleNewAdmin" value="1">ADMIN</option>
+                            </select>
+                        </div>
+                        <div class="col d-flex flex-column justify-content-lg-center align-items-lg-center
+                                justify-content-xl-center align-items-xl-center"
+                             id="tp2-col7">
+                            <button class="btn btn-primary" id="tp2-but" type="submit"
+                                    form="formNewUser">Add new user
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Модальное окно по изменению пользователя!!!!!!!!!!!!!!!!!!-->
+<div class="modal fade" role="dialog" tabindex="-1" id="modalEdit">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form id="formEdit">
+                <div class="modal-header d-md-flex" id="modalHeader1">
+                    <h4 class="modal-title d-md-flex">Edit user</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body border rounded-0 justify-content-xl-center">
+                    <div class="container justify-content-md-center">
+                        <div class="row flex-column align-items-lg-center justify-content-xl-center align-items-xl-center"
+                             id="modal-body1-row">
+                            <div class="col d-flex flex-column align-items-md-center align-items-lg-center align-items-xl-center"
+                                 id="modal1-column">
+                                <label for="modal1_textInput"
+                                       class="justify-content-lg-center justify-content-xl-center"
+                                       id="modal1-fieldLabel">ID</label>
+                                <input name="id"
+                                       class="justify-content-lg-center align-items-lg-center"
+                                       th:type="text"
+                                       id="modal1_textInput" disabled="">
+                            </div>
+                            <div class="col d-flex flex-column align-items-md-center align-items-lg-center align-items-xl-center"
+                                 id="modal1-column1">
+                                <label for="modal1-textInput-2"
+                                       class="justify-content-lg-center justify-content-xl-center"
+                                       id="modal1-fieldLabel2">First name</label>
+                                <input name="userName"
+                                       class="justify-content-lg-center align-items-lg-center"
+                                       th:type="text"
+                                       id="modal1-textInput-2">
+                            </div>
+                            <div class="col d-flex flex-column align-items-md-center align-items-lg-center align-items-xl-center"
+                                 id="modal1-column2">
+                                <label for="modal1-textInput-3"
+                                       class="justify-content-lg-center align-items-lg-center justify-content-xl-center"
+                                       id="modal1-fieldLabel3">Last name</label>
+                                <input name="lastName" th:type="text" id="modal1-textInput-3">
+                            </div>
+                            <div class="col d-flex flex-column align-items-md-center align-items-lg-center align-items-xl-center"
+                                 id="modal1-column3">
+                                <label for="modal1-numInp"
+                                       class="justify-content-lg-center align-items-lg-center justify-content-xl-center"
+                                       id="modal1-fieldLabel4">Age</label>
+                                <input name="age" th:type="number" id="modal1-numInp">
+                            </div>
+                            <div class="col d-flex flex-column align-items-md-center align-items-lg-center align-items-xl-center"
+                                 id="modal1-column4">
+                                <label for="modal1-email"
+                                       class="justify-content-lg-center align-items-lg-center justify-content-xl-center"
+                                       id="modal1-fieldLabel-5">Email</label>
+                                <input name="email" th:type="email" id="modal1-email">
+                            </div>
+                            <div class="col d-flex flex-column align-items-md-center align-items-lg-center align-items-xl-center"
+                                 id="modal1-column5">
+                                <label for="modal1-password"
+                                       class="justify-content-lg-center align-items-lg-center justify-content-xl-center"
+                                       id="modal1-fieldLabel6">Password</label>
+                                <input name="password" type="password" id="modal1-password"
+                                       value="">
+                            </div>
+                            <div class="col d-flex flex-column align-items-md-center align-items-lg-center align-items-xl-center"
+                                 id="modal1-column6">
+                                <label for="modalRoleEd"
+                                       class="justify-content-lg-center align-items-lg-center justify-content-xl-center"
+                                       id="modal1-fieldLabel7">Role</label>
+                                <select class="justify-content-lg-center align-items-lg-center"
+                                        id="modalRoleEd" name="modalRoleEd" multiple="">
+                                    <option id="roleUser" value="USER">USER</option>
+                                    <option id="roleAdmin" value="ADMIN">ADMIN</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" id="modalFooter1">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal" id="editClose">Close</button>
+                    <button class="btn btn-primary" type="submit" onclick="edit(); adminPage()">Edit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--Модальное окно по удалению пользователя!!!!!!!!!!!!!!!!!!-->
+<div class="modal fade" role="dialog" tabindex="-1" id="modalDelete">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form id="formDelete">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete user</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body border rounded-0">
+                    <div class="container">
+                        <div class="row d-flex flex-column align-items-lg-center justify-content-xl-center align-items-xl-center"
+                             id="modal-2-row">
+                            <div class="col d-flex flex-column align-items-md-center align-items-lg-center align-items-xl-center"
+                                 id="modal2-column">
+                                <label for="modal2-textInp"
+                                       class="justify-content-lg-center justify-content-xl-center"
+                                       id="modal2-fieldLabel">ID</label>
+                                <input class="justify-content-lg-center align-items-lg-center"
+                                       th:type="text"
+                                       id="modal2-textInp"
+                                       disabled="">
+                            </div>
+                            <div class="col d-flex flex-column align-items-md-center align-items-lg-center align-items-xl-center"
+                                 id="modal2-column2">
+                                <label for="modal2-textInp2"
+                                       class="justify-content-lg-center justify-content-xl-center"
+                                       id="modal2-fieldLabel2">First name</label>
+                                <input class="justify-content-lg-center align-items-lg-center"
+                                       th:type="text"
+                                       id="modal2-textInp2"
+                                       disabled="">
+                            </div>
+                            <div class="col d-flex flex-column align-items-md-center align-items-lg-center align-items-xl-center"
+                                 id="modal2-column3">
+                                <label for="modal2-textInp3"
+                                       class="justify-content-lg-center align-items-lg-center justify-content-xl-center"
+                                       id="modal2-fieldLabel3">Last name</label>
+                                <input th:type="text" id="modal2-textInp3" disabled="">
+                            </div>
+                            <div class="col d-flex flex-column align-items-md-center align-items-lg-center align-items-xl-center"
+                                 id="modal2-column4">
+                                <label for="modal2-numInp"
+                                       class="justify-content-lg-center align-items-lg-center justify-content-xl-center"
+                                       id="modal2-fieldLabel4">Age</label>
+                                <input th:type="number" id="modal2-numInp" disabled="">
+                            </div>
+                            <div class="col d-flex flex-column align-items-md-center align-items-lg-center align-items-xl-center"
+                                 id="modal2-column5">
+                                <label for="modal2-email"
+                                       class="justify-content-lg-center align-items-lg-center justify-content-xl-center"
+                                       id="modal2-fieldLabel5">Email</label>
+                                <input th:type="email" id="modal2-email" disabled="">
+                            </div>
+                            <div class="col d-flex flex-column align-items-md-center align-items-lg-center align-items-xl-center"
+                                 id="modal2-column6">
+                                <label for="modal2-select"
+                                       class="justify-content-lg-center align-items-lg-center justify-content-xl-center"
+                                       id="modal2-fieldLabel6">Role</label>
+                                <select class="justify-content-lg-center align-items-lg-center"
+                                        id="modal2-select" multiple="" disabled="">
+                                    <option value="USER">USER</option>
+                                    <option value="ADMIN">ADMIN</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal" id="deleteClose">Close</button>
+                    <button class="btn btn-danger" type="submit" onclick="userDelete(); adminPage()">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/admin_script.js}"></script>
+<script th:src="@{/js/newUser_script.js}"></script>
+<script th:src="@{/js/modalEdit_script.js}"></script>
+<script th:src="@{/js/modalDelete_script.js}"></script>
+</body>
+</html>
