@@ -21,43 +21,43 @@ public class RESTController {
     }
 
     @GetMapping("/admin")
-    public List<User> allUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<User>> allUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("/admin/{id}")
-    public User getUser(@PathVariable long id) {
+    public ResponseEntity<User> getUser(@PathVariable long id) {
         User user = userService.getUser(id);
         if (user == null) {
             throw new NoSuchUserException("There is no user with ID: " + id + " in Database");
         }
-        return user;
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping("/admin")
-    public User addNewUser(@RequestBody User user) {
+    public ResponseEntity<User> addNewUser(@RequestBody User user) {
         userService.saveUser(user);
-        return user;
+        return ResponseEntity.ok(user);
     }
 
     @PutMapping("/admin/{id}")
-    public User editUser(@RequestBody User user, @PathVariable("id") Long id) {
-        user.setId(id);
+    public ResponseEntity<User> editUser(@RequestBody User user) {
         userService.editUser(user);
-        return user;
+        return ResponseEntity.ok(user);
     }
 
     @DeleteMapping("/admin/{id}")
-    public String deleteUser(@PathVariable long id) {
+    public ResponseEntity<String> deleteUser(@PathVariable long id) {
         User user = userService.getUser(id);
         if (user == null) {
             throw new NoSuchUserException("There is no user with ID: " + id + " in Database");
         }
         userService.removeUserById(id);
-        return "User with ID: " + id + " was deleted.";
+        return ResponseEntity.ok("User with ID: " + id + " was deleted.");
     }
+
     @GetMapping("/user")
-    public User showUser(Principal principal) {
-        return userService.findByUserName(principal.getName()).orElse(null);
+    public ResponseEntity<User> showUser(Principal principal) {
+        return ResponseEntity.ok(userService.findByUserName(principal.getName()).orElse(null));
     }
 }
