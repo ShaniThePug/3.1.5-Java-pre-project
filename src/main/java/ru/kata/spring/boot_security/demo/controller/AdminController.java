@@ -30,22 +30,4 @@ public class AdminController {
         model.addAttribute("thisUser", userService.findByUserName(principal.getName()).get());
         return "admin";
     }
-
-    @PostMapping()
-    public String save(@ModelAttribute("user") User user) {
-        userService.saveUser(user);
-        return "redirect:/admin";
-    }
-
-    @PatchMapping(value = "/{id}")
-    public String update(@ModelAttribute("user") User user) {
-        userService.editUser(user);
-        return "redirect:/admin";
-    }
-
-    @DeleteMapping(value = "/{id}")
-    public String delete(@PathVariable("id") long id) {
-        userService.removeUserById(id);
-        return "redirect:/admin";
-    }
 }
